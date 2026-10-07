@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GNSS Stations</title>
+</head>
+
+<body>
+
+    <h1>GNSS Station Monitoring</h1>
+
+    <label for="station">Select station:</label>
+
+    <select id="station">
+        <option value="">-- Select station --</option>
+
+        {% for st in stations %}
+            <option value="{{ st }}">{{ st }}</option>
+        {% endfor %}
+    </select>
+
+    <script>
+        document.getElementById("station").addEventListener("change", function() {
+            if (this.value) {
+                window.location.href = "/station/" + this.value;
+            }
+        });
+    </script>
+
+</body>
+</html>

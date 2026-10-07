@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+    <title>Station {{ station }}</title>
+</head>
+
+<h1>
+    Station
+
+    <select id="station-select"
+            onchange="window.location.href='/station/' + this.value">
+
+        {% for st in stations %}
+            <option value="{{ st }}"
+                    {% if st == station %}selected{% endif %}>
+                {{ st }}
+            </option>
+        {% endfor %}
+
+    </select>
+</h1>
+
+<p>GNSS station coordinate residuals</p>
+ 
+<div class="dashboard">
+
+    <div class="left-panel">
+
+        <div class="station-box">
+            <!-- your existing station table -->
+            <table>
+
+				<tr>
+					<td><b>Data period</b></td>
+					<td>
+						{{ start_date.strftime("%d %b %Y") }}
+						–
+						{{ end_date.strftime("%d %b %Y") }}
+					</td>
+				</tr>
+
+				<tr>
+					<td><b>Reference epoch</b></td>
+					<td>{{ info.reference_epoch }}</td>
+				</tr>
+
+				<tr>
+					<td><b>Latitude</b></td>
+					<td>{{ info.latitude }}°</td>
+				</tr>
+
+				<tr>
+					<td><b>Longitude</b></td>
+					<td>{{ info.longitude }}°</td>
+				</tr>
+
+				<tr>
+					<td><b>Ellipsoidal height</b></td>
+					<td>{{ info.height }} m</td>
+				</tr>
+
+				<tr>
+					<td><b>Receiver</b></td>
+					<td>{{ info.receiver }}</td>
+				</tr>
+
+				<tr>
+					<td><b>Antenna</b></td>
+					<td>{{ info.antenna }}</td>
+				</tr>
+
+				<tr>
+					<td><b>σ East</b></td>
+					<td>{{ "%.2f"|format(sigma_e) }} mm</td>
+				</tr>
+
+				<tr>
+					<td><b>σ North</b></td>
+					<td>{{ "%.2f"|format(sigma_n) }} mm</td>
+				</tr>
+
+				<tr>
+					<td><b>σ Up</b></td>
+					<td>{{ "%.2f"|format(sigma_u) }} mm</td>
+				</tr>
+				
+				<tr>
+				   <td><b>Tolerance</b></td>
+				   <td>20 mm horizontal / 30 mm vertical</td>
+				</tr>
+				
+				<tr>
+					<td><b>Status</b></td>
+					<td>
+						{% if status == "green" %}
+							<span class="status-dot green"></span>
+							Within tolerance
+						{% else %}
+							<span class="status-dot yellow"></span>
+							Review required
+						{% endif %}
+					</td>
+				</tr>
+			
+			</table>
+
+            {% if not show_graphs %}
+                <form method="get">
+                    <input type="hidden" name="show_graphs" value="1">
+                    <button type="submit">Show graphs</button>
+                </form>
+            {% else %}
+                <form method="get">
+                    <button type="submit">Hide graphs</button>
+                </form>
+            {% endif %}
+        </div>
+
+        <div class="legend">
+            <span class="status-dot green"></span>
+            Within tolerance
+
+            &nbsp;&nbsp;
+
+            <span class="status-dot yellow"></span>
+            Review required
+        </div>
+
+    </div>
+
+
+    {% if show_graphs %}
+
+    <div class="right-panel">
+
+        <div class="graph-block">
+            <h2>East</h2>
+            {{ graph_e | safe }}
+        </div>
+
+        <div class="graph-block">
+            <h2>North</h2>
+            {{ graph_n | safe }}
+        </div>
+
+        <div class="graph-block">
+            <h2>Vertical</h2>
+            {{ graph_u | safe }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
