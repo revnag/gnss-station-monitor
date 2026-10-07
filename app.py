@@ -18,7 +18,7 @@ STATION_INFO = {
         "antenna": "MGW310 NONE",
         "latitude": 26.51,
         "longitude": 80.27,
-        "height": 64.33 ,
+        "height": 64.33,
         "reference_epoch": "2026-08-29"
     }
 }
