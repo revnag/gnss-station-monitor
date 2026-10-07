@@ -16,8 +16,8 @@ STATION_INFO = {
     "3494": {
         "receiver": "M720",
         "antenna": "MGW310 NONE",
-        "latitude": 26.0,
-        "longitude": 80.0,
+        "latitude": 26.51,
+        "longitude": 80.27,
         "height": 0.0,
         "reference_epoch": "2026-08-29"
     }
